@@ -1,0 +1,1 @@
+A Storage of entire game maps. (Which include id, room_name, Neighbors_rooms, room_description)
