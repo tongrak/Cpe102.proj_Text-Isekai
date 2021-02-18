@@ -1,0 +1,15 @@
+ROOM_BEGIN
+starting room
+This is where you begin
+North 01
+East 02
+West 03
+South 04
+
+ROOM_BEGIN
+testing
+How do I cout thai language.
+North NULL
+East NULL
+West NULL
+South NULL
