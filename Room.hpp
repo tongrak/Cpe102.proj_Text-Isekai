@@ -5,6 +5,7 @@
 #include<fstream> 
 #include<string>
 using namespace std;
+#include "Program.hpp"
 
 class Room
 {
@@ -15,43 +16,54 @@ class Room
     
     private:
     string holder, name, descrip;
-    string store[10][6]; //Key check, room ID, room name, descip, Key_id*4;
-    string (*hid_CurrID)[6];
+    string store[10][7]; //Store Room_ID, Title, Description, connection between room.
+    string (*hid_CurrID)[7];
     int x;
     
     void LoadMaps();
-    void SettingUpRoom(string (*)[6]);
+    void SettingUpRoom(string (*)[7]);
+    void SettingConnection();
 };
 
 Room::Room()
 {
     string holder="",id ="",name="",descrip="";
     LoadMaps();
-    hid_CurrID=store+0;
+    hid_CurrID=store; //sett room to starter.
 
 }
 
 void Room::LoadMaps()
 {
-    ifstream file("maps.txt");
+    ifstream file("Maps.txt");
     x=-1;
     while(getline(file, holder))
     {
         if(holder=="ROOM_BEGIN")
         {
             x++;
-            for(int i=0;i<6;i++){
+            for(int i=0;i<3;i++){
                 getline(file, store[x][i]);
             }
+            /* for(int j=3;j<7;j++){
+
+            } */
+
+
         }
 
     }
     file.close();
 }
 
-void Room::SettingUpRoom(string (*in_ptr)[6]){
-    name=**in_ptr;
-    descrip=*(*in_ptr+1);
+/* void Room::SettingConnection(){
+    string form[]={"NORTH","EAST","WEST","SOUTH"};
+    //for(int i=0;i<)
+} */
+
+void Room::SettingUpRoom(string (*in_ptr)[7]){
+    name=*(*in_ptr+1);
+    descrip=*(*in_ptr+2);
 }
 
 void Room::ShowingRoomInfo()

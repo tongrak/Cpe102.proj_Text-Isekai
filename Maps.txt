@@ -1,1 +1,26 @@
-A Storage of entire game maps. (Which include id, room_name, Neighbors_rooms, room_description)
+ROOM_BEGIN
+01
+Start room
+This is where you begin.
+NORTH 02
+EAST NULL
+WEST 03
+SOUTH NULL
+
+ROOM_BEGIN
+02
+North of the room
+this 'room' located on the north of the room. and there are no where to go.
+NORTH NULL
+EAST NULL
+WEST NULL
+SOUTH 01
+
+ROOM_BEGIN
+03
+West of the room
+There is nothing here.
+NORTH NULL
+EAST NULL
+WEST 01
+SOUTH NULL

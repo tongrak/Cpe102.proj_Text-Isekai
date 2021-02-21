@@ -2,7 +2,7 @@
 #define PROGRAM_HPP
 
 #include<iostream>
-#include<map>
+//#include<map>
 #include<string>
 #include<cctype>
 using namespace std;
@@ -17,6 +17,7 @@ class Program
 
     private:
     string holder, in_key, in_wanted;
+    bool is_running;
 
     //int* hid_CurrRoomId;
     void Action_checking();
@@ -27,35 +28,34 @@ class Program
 
 //constructor
 Program::Program(){
+    holder="",in_key="",in_wanted="";
+    is_running=true;
+
 }
 
 void Program::Action_checking(){
+    do{
+    cout<<"> ";
     getline(cin, holder);
     SplitKeyWord(holder, in_key, in_wanted);
-    if(Tolower(in_key)=="go")
+    if(Tolower(in_key)=="go"){cout<<"Got key as go"<<endl;}
+    else if(Tolower(in_key)=="exit"){is_running=false;}
+    else if(Tolower(in_key)=="look")
     {
-        
+        Room calling;
+        calling.ShowingRoomInfo();
     }
+    else{cout<<"Sorry not quite get that."<<endl;}
+    }while(is_running);
+        
 }
 
 void Program::SplitKeyWord(string in_text, string &key, string &wanted){
-	int N = in_text.size(), loca;	
-	for(loca = 0; loca < N; loca++){
-		if(in_text[loca] == ' '){
-			break;
-		}
-	}
-	
-	key = "";
-	for(int i = 0; i < loca;i++){
-		key += in_text[i];
-	}
+	int holder= in_text.find_first_of(" ");
+    key=in_text.substr(0,holder);
+    wanted=in_text.substr(holder+1);
 
-    wanted="";
-    for(int i = loca+1; i < N;i++){
-		wanted += in_text[i];
-	}
-}
+} 
 
 string Program::Tolower(string text){
     int i=text.size();
