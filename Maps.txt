@@ -1,3 +1,5 @@
+This is where we store our game story, heart, and hope.
+
 ROOM_BEGIN
 01
 Start room

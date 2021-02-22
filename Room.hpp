@@ -5,6 +5,7 @@
 #include<fstream> 
 #include<string>
 using namespace std;
+
 #include "Program.hpp"
 
 class Room
@@ -12,63 +13,88 @@ class Room
     public:
     Room();
     void ShowingRoomInfo();
+    bool CheckingInputDir();
     
     
     private:
-    string holder, name, descrip;
-    string store[10][7]; //Store Room_ID, Title, Description, connection between room.
-    string (*hid_CurrID)[7];
-    int x;
+    string holder_str, name, descrip;
+    string store[10][7]; //Store Room_ID, Title, Description, North, west, east, south connnector.
+    int holder_int, *CurrID=new int;
     
     void LoadMaps();
-    void SettingUpRoom(string (*)[7]);
-    void SettingConnection();
+    void SettingUpRoom(int ID);
 };
 
+//constructor
 Room::Room()
 {
-    string holder="",id ="",name="",descrip="";
+    string holder="",name="",descrip="";
     LoadMaps();
-    hid_CurrID=store; //sett room to starter.
+    *CurrID=0; //sett room to starter.
 
 }
 
+//loading maps from Map.txt and store it in store arrays.
 void Room::LoadMaps()
 {
     ifstream file("Maps.txt");
-    x=-1;
-    while(getline(file, holder))
+    int x=-1;
+    while(getline(file, holder_str))
     {
-        if(holder=="ROOM_BEGIN")
+        if(holder_str=="ROOM_BEGIN")
         {
             x++;
             for(int i=0;i<3;i++){
                 getline(file, store[x][i]);
             }
-            /* for(int j=3;j<7;j++){
-
-            } */
+            for(int j=3;j<7;j++){
+                getline(file, holder_str);
+                int temp=holder_str.find_first_of(" ");
+                string str_temp=holder_str.substr(temp+1);
+                store[x][j]=str_temp;
+            }
 
 
         }
+
 
     }
     file.close();
 }
 
-/* void Room::SettingConnection(){
-    string form[]={"NORTH","EAST","WEST","SOUTH"};
-    //for(int i=0;i<)
-} */
+//Checking User directive input, if valid change CurrID
+bool Room::CheckingInputDir(){
+    //couldn't make this to work.
+    /*
+    Program pro;
+    holder_str=pro.out_wanted;
+    */
+    bool temp_bool=false;
+    if(holder_str=="north"&&store[*CurrID][3]!="NULL"){
+        *CurrID=stoi(store[*CurrID][3]);
+        temp_bool=true;
+    }else if(holder_str=="west"&&store[*CurrID][4]!="NULL"){
+        *CurrID=stoi(store[*CurrID][4]);
+        temp_bool=true;
+    }else if(holder_str=="east"&&store[*CurrID][5]!="NULL"){
+        *CurrID=stoi(store[*CurrID][5]);
+        temp_bool=true;
+    }else if(holder_str=="south"&&store[*CurrID][6]!="NULL"){
+        *CurrID=stoi(store[*CurrID][6]);
+        temp_bool=true;
+    }
+    return temp_bool;
+}
 
-void Room::SettingUpRoom(string (*in_ptr)[7]){
-    name=*(*in_ptr+1);
-    descrip=*(*in_ptr+2);
+
+void Room::SettingUpRoom(int ID){
+    name=store[ID][1];
+    descrip=store[ID][2];
 }
 
 void Room::ShowingRoomInfo()
 {
-    SettingUpRoom(hid_CurrID);
+    SettingUpRoom(*CurrID);
     cout<<"\t"<<name<<endl<<descrip<<endl;
 }
 
