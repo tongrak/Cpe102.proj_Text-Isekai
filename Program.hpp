@@ -13,13 +13,13 @@ class Program
     public:
     Program();
     void Run();
-    string out_wanted;
 
     private:
     string holder, in_key, in_wanted;
     bool is_running;
 
     void Action_checking();
+    //bool CheckingInputDir();
     void SplitKeyWord(string ,string &, string &);
     string Tolower(string);
 
@@ -33,17 +33,15 @@ Program::Program(){
 
 //Checking for userinput, if key word is pasent, do a "act".
 void Program::Action_checking(){
-    do{
     Room room;
     cout<<"> ";
     getline(cin, holder);
     SplitKeyWord(holder, in_key, in_wanted);
     if(Tolower(in_key)=="go")
     {
-        out_wanted=Tolower(in_wanted);
-        
-        if(room.CheckingInputDir())room.ShowingRoomInfo();
-        else{cout<<"nothing there"<<endl;}
+        /* if(CheckingInputDir())room.ShowingRoomInfo();
+        else{cout<<"nothing there"<<endl;} */
+        cout<<"I got go"<<endl;
     }
     else if(Tolower(in_key)=="exit"){is_running=false;}
     else if(Tolower(in_key)=="look")
@@ -51,7 +49,6 @@ void Program::Action_checking(){
         room.ShowingRoomInfo();
     }
     else{cout<<"Sorry not quite get that."<<endl;}
-    }while(is_running);
         
 }
 
@@ -73,11 +70,23 @@ string Program::Tolower(string text){
     return out;
 }
 
+/* bool Program::CheckingInputDir(){
+    Room R;
+    in_wanted=Tolower(in_wanted);
+    if(in_wanted=="north"&&R.Storage[*(R.Curr_id)].Neighbor[0]!="NULL")
+    {
+        R.Curr_id=stoi()
+    }
+} */
+
 //for runing the 'game'
 void Program::Run(){
     Room room_calling;
     room_calling.ShowingRoomInfo();
+    do{
     Action_checking();
+    }while(is_running);
+
 }
 
 

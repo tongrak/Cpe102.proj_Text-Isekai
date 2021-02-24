@@ -4,98 +4,83 @@
 #include<iostream>
 #include<fstream> 
 #include<string>
+#include<map>
 using namespace std;
 
-#include "Program.hpp"
+//damn include guard;
+//#include "Program.hpp"
 
-class Room
-{
-    public:
+//Goodbye, my old friend.
+// class Room
+
+struct Room{
+    string name; 
+    string description;
+    string Neighbor[4];
+
     Room();
-    void ShowingRoomInfo();
-    bool CheckingInputDir();
-    
-    
-    private:
-    string holder_str, name, descrip;
-    string store[10][7]; //Store Room_ID, Title, Description, North, west, east, south connnector.
-    int holder_int, *CurrID=new int;
-    
     void LoadMaps();
-    void SettingUpRoom(int ID);
-};
+    void ShowingRoomInfo();
+    void SettingUpRoom(int id, string &s1, string &s2);
+
+}; 
+
+//declare some variable
+map<int,Room> Storage;
+int *Curr_id = new int;
+string *NAME = new string;
+string *DESCRIP = new string;
 
 //constructor
 Room::Room()
 {
-    string holder="",name="",descrip="";
     LoadMaps();
-    *CurrID=0; //sett room to starter.
-
+    *Curr_id=0;
 }
 
 //loading maps from Map.txt and store it in store arrays.
 void Room::LoadMaps()
 {
+    string holder_str;
+    int holder_int;
     ifstream file("Maps.txt");
-    int x=-1;
     while(getline(file, holder_str))
     {
         if(holder_str=="ROOM_BEGIN")
         {
-            x++;
-            for(int i=0;i<3;i++){
-                getline(file, store[x][i]);
-            }
-            for(int j=3;j<7;j++){
+            Room R;
+            string holder;
+            getline(file, holder);
+            holder_int=stoi(holder);
+            getline(file, R.name);
+            getline(file, R.description);
+            for(int i=0;i<4;i++)
+            {
                 getline(file, holder_str);
                 int temp=holder_str.find_first_of(" ");
                 string str_temp=holder_str.substr(temp+1);
-                store[x][j]=str_temp;
+                R.Neighbor[i]=str_temp;
             }
-
-
+            //cout<<endl;
+            Storage.insert(pair<int,Room>(holder_int,R));
         }
-
-
     }
     file.close();
 }
 
-//Checking User directive input, if valid change CurrID
-bool Room::CheckingInputDir(){
-    //couldn't make this to work.
-    /*
-    Program pro;
-    holder_str=pro.out_wanted;
-    */
-    bool temp_bool=false;
-    if(holder_str=="north"&&store[*CurrID][3]!="NULL"){
-        *CurrID=stoi(store[*CurrID][3]);
-        temp_bool=true;
-    }else if(holder_str=="west"&&store[*CurrID][4]!="NULL"){
-        *CurrID=stoi(store[*CurrID][4]);
-        temp_bool=true;
-    }else if(holder_str=="east"&&store[*CurrID][5]!="NULL"){
-        *CurrID=stoi(store[*CurrID][5]);
-        temp_bool=true;
-    }else if(holder_str=="south"&&store[*CurrID][6]!="NULL"){
-        *CurrID=stoi(store[*CurrID][6]);
-        temp_bool=true;
-    }
-    return temp_bool;
-}
+//Move to Program.hpp
+// bool Room::CheckingInputDir(){
 
 
-void Room::SettingUpRoom(int ID){
-    name=store[ID][1];
-    descrip=store[ID][2];
+void Room::SettingUpRoom(int ID, string &s1, string &s2){
+    s1=Storage[ID].name;
+    s2=Storage[ID].description;
 }
 
 void Room::ShowingRoomInfo()
 {
-    SettingUpRoom(*CurrID);
-    cout<<"\t"<<name<<endl<<descrip<<endl;
+    SettingUpRoom(*Curr_id, *NAME, *DESCRIP);
+    cout<<"\t"<<name<<endl<<description;
 }
 
 #endif
