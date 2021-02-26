@@ -19,7 +19,7 @@ class Program
     bool is_running;
 
     void Action_checking();
-    //bool CheckingInputDir();
+    bool CheckingInputDir();
     void SplitKeyWord(string ,string &, string &);
     string Tolower(string);
 
@@ -39,11 +39,14 @@ void Program::Action_checking(){
     SplitKeyWord(holder, in_key, in_wanted);
     if(Tolower(in_key)=="go")
     {
-        /* if(CheckingInputDir())room.ShowingRoomInfo();
-        else{cout<<"nothing there"<<endl;} */
-        cout<<"I got go"<<endl;
+        if(in_wanted=="")cout<<"go where?"<<endl;
+        else if(CheckingInputDir())room.ShowingRoomInfo();
+        else{cout<<"nothing there"<<endl;}
     }
-    else if(Tolower(in_key)=="exit"){is_running=false;}
+    else if(Tolower(in_key)=="exit"){
+        cout<<"hope you enjoy your stay";
+        is_running=false;
+        }
     else if(Tolower(in_key)=="look")
     {
         room.ShowingRoomInfo();
@@ -70,18 +73,40 @@ string Program::Tolower(string text){
     return out;
 }
 
-/* bool Program::CheckingInputDir(){
+//checking for valid direction and change curr_id;
+bool Program::CheckingInputDir(){
     Room R;
+    string holder;
+    bool check=false;
     in_wanted=Tolower(in_wanted);
-    if(in_wanted=="north"&&R.Storage[*(R.Curr_id)].Neighbor[0]!="NULL")
+    if(in_wanted=="north"&&R.RuturnNeighbor(0, holder)!="NULL")
     {
-        R.Curr_id=stoi()
+        R.ChangeCurr_id(stoi(holder));
+        check=true;
     }
-} */
+    if(in_wanted=="east"&&R.RuturnNeighbor(1, holder)!="NULL")
+    {
+        R.ChangeCurr_id(stoi(holder));
+        check=true;
+    }
+    if(in_wanted=="west"&&R.RuturnNeighbor(2, holder)!="NULL")
+    {
+        R.ChangeCurr_id(stoi(holder));
+        check=true;
+    }
+    if(in_wanted=="south"&&R.RuturnNeighbor(3, holder)!="NULL")
+    {
+        R.ChangeCurr_id(stoi(holder));
+        check=true;
+    }
+    return check;
+} 
 
 //for runing the 'game'
 void Program::Run(){
     Room room_calling;
+    room_calling.LoadMaps();
+    room_calling.ChangeCurr_id(0);
     room_calling.ShowingRoomInfo();
     do{
     Action_checking();

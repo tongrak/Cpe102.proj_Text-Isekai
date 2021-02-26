@@ -18,10 +18,11 @@ struct Room{
     string description;
     string Neighbor[4];
 
-    Room();
     void LoadMaps();
     void ShowingRoomInfo();
     void SettingUpRoom(int id, string &s1, string &s2);
+    string RuturnNeighbor(int dir, string &keeper);
+    void ChangeCurr_id(int id);
 
 }; 
 
@@ -31,14 +32,14 @@ int *Curr_id = new int;
 string *NAME = new string;
 string *DESCRIP = new string;
 
-//constructor
-Room::Room()
+//constructor, disable for now.
+/* Room::Room()
 {
-    LoadMaps();
+    //LoadMaps();
     *Curr_id=0;
-}
+} */
 
-//loading maps from Map.txt and store it in store arrays.
+//loading maps from Map.txt and store it in Storage map.
 void Room::LoadMaps()
 {
     string holder_str;
@@ -49,9 +50,8 @@ void Room::LoadMaps()
         if(holder_str=="ROOM_BEGIN")
         {
             Room R;
-            string holder;
-            getline(file, holder);
-            holder_int=stoi(holder);
+            getline(file, holder_str);
+            holder_int=stoi(holder_str);
             getline(file, R.name);
             getline(file, R.description);
             for(int i=0;i<4;i++)
@@ -61,26 +61,35 @@ void Room::LoadMaps()
                 string str_temp=holder_str.substr(temp+1);
                 R.Neighbor[i]=str_temp;
             }
-            //cout<<endl;
             Storage.insert(pair<int,Room>(holder_int,R));
         }
     }
     file.close();
 }
 
-//Move to Program.hpp
-// bool Room::CheckingInputDir(){
+//Ruturing a Neighbor id.
+string Room::RuturnNeighbor(int dir, string &keeper){
+    keeper = Storage[*Curr_id].Neighbor[dir];
+    return Storage[*Curr_id].Neighbor[dir];
 
-
-void Room::SettingUpRoom(int ID, string &s1, string &s2){
-    s1=Storage[ID].name;
-    s2=Storage[ID].description;
+}
+//as the name suggest, it change Curr_id
+void Room::ChangeCurr_id(int id){
+    *Curr_id=id;
 }
 
+//Setting up string to be print.
+void Room::SettingUpRoom(int ID, string &inni_name, string &inni_des){
+    inni_name=Storage[ID].name;
+    inni_des=Storage[ID].description;
+}
+
+
+//for printing string on console(for now);
 void Room::ShowingRoomInfo()
 {
     SettingUpRoom(*Curr_id, *NAME, *DESCRIP);
-    cout<<"\t"<<name<<endl<<description;
+    cout<<"\t"<<*NAME<<endl<<*DESCRIP<<endl;
 }
 
 #endif
