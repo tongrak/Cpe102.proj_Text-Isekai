@@ -9,4 +9,5 @@ This repository is a part of cpe102 project, a project about text-based adventur
 ```
 ```
 26/02/21: Finally, something that work -Oliver;
+26/02/21: I just add some text input , next thing to do just add some audio -Thoop 
 ```
