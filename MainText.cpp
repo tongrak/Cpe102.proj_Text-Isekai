@@ -18,6 +18,7 @@ int main() {
     sf::Texture texture;
 
     texture.setRepeated(true);
+    sf::Font Movethetext;//maybe use it;
 
     
 
@@ -34,7 +35,7 @@ int main() {
     //sprite.setTextureRect(sf::IntRect(0, 0, 1000,1000 ));
     sprite.setPosition(sf::Vector2f(200,100));
 
-
+    bool showtof = false;
 
     sf::Font font;
     if (!font.loadFromFile("C:/Game file/Font/ArialCE.ttf")) {
@@ -44,21 +45,36 @@ int main() {
     }
     font.loadFromFile("ArialCE.ttf");
 
+    sf::String systemstring;
+
+    sf::Text system;
+    system.setFont(font);
+    system.setString("||System||" + systemstring);
+    system.setPosition(0, 650); 
+    system.setCharacterSize(23);
+    system.setFillColor(sf::Color::Cyan);
+
+    sf::Text colon;
+    colon.setFont(font);
+    colon.setString("||Player||:");
+    colon.setPosition(0, 600);
+    colon.setCharacterSize(23);
+    colon.setFillColor(sf::Color::Yellow);
+
+  
     sf::String sentence;
-    sf::Text text(sentence, font, 40);
-    text.setPosition(0, 600);
+    sf::Text text(sentence, font, 23);
+    text.setPosition(101, 600);
     text.setFillColor(sf::Color::White);
-    text.setStyle(sf::Text::Bold || sf::Text::Underlined);
-
-
+  
     while (window.isOpen())
-
     {
         sf::Event Event;
 
         //Event Start the loop
         while (window.pollEvent(Event))
         {
+            showtof = false;
             switch (Event.type)
             {
             case sf::Event::Closed:
@@ -83,9 +99,16 @@ int main() {
                     {
                         for (unsigned int i = 0; i < sentence.getSize(); i++)
                             putchar(tolower(sentence[i]));
-                        //usethisline to Enter Event
+                        if (sentence == "south") {
+                            std::string south1 = "\n You found nothing but its slime";
+                            std::cout << south1 << std::endl;
+                            systemstring = south1;
+                            system.setString("||System||:" + systemstring);
+                            systemstring.clear();
+                        }
+                        // add the new line to enter + systemstring.clear();
+                        sentence.clear();
                     }
-
                     text.setString(sentence);
                     break;
 
@@ -93,11 +116,11 @@ int main() {
             }
         }
         window.clear();
+        window.draw(colon);
         window.draw(sprite);
         window.draw(text);
+        window.draw(system);
         window.display();
-
     }
-
     return 0;
 }
