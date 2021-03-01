@@ -106,7 +106,7 @@ bool Program::CheckingInputDir(){
 void Program::Run(){
     Room room_calling;
     room_calling.LoadMaps();
-    room_calling.ChangeCurr_id(0);
+    room_calling.ChangeCurr_id(1);
     room_calling.ShowingRoomInfo();
     do{
     Action_checking();
