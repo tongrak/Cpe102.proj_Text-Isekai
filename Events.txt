@@ -1,0 +1,22 @@
+This is Event text file. Here we store all thing to do with game event.
+//*****The Format*****//
+//EVENT_BEGIN
+//event id
+//name
+//description
+//event type. (B for two option event, C for combat event, S for cutscene)
+//event option, if need be.
+
+EVENT_BEGIN
+101
+Starting Scene
+This is where it all begin. empty, there is not a single thing in the room. two door catch your eyes, one at the north and one at the west.
+S
+NULL
+
+EVENT_BEGIN
+102
+You are not suppost to be here.
+go back.
+B
+NO YES
