@@ -9,10 +9,15 @@ using namespace std;
 //#include "Utilities.hpp"
 
 /*
-    Program.h, is almost like our main game processor, it duties are:
+    Program.h, is almost like our main game processor(Or Engine, if you will), it duties are:
     -     Get current room detail and pass it on to GUI
     -     Taking User command, process, and return a order;
+
+    TODO:
+    -   All Data loading and processing and Gui load, shall be called for use in Program.h or Main.cpp
 */
+
+
 
 /*
     String Processing  Function
@@ -40,7 +45,7 @@ string Tolower(string text) {
 /*
     Creating Room object
 */
-    Room Room_calling;
+data_load Room_calling;
 
 /*
     Class and constructor
@@ -50,7 +55,7 @@ class Program
 {
 public:
     Program();
-    //void Run();
+    void Run();
 
 private:
     string holder, in_key, in_wanted;
@@ -70,7 +75,6 @@ Program::Program() {
     Room_calling.LoadMaps();
     Room_calling.LoadEvent();
     Room_calling.ChangeCurr_id(1);
-    //Room_calling.ShowingRoomInfo();
 }
 
 /*
@@ -85,11 +89,16 @@ void Program::Action_checking() {
     if (Tolower(in_key) == "go")
     {
         if (in_wanted == "")cout << "where?" << endl;
-        else if (CheckingInputDir())/*Display detail of current room*/;
+        else if (CheckingInputDir())
+        {
+            Event_checking();
+            /*Display*/
+        }
         else { cout << "nothing there" << endl; }
     }
     else if (Tolower(in_key) == "exit") {
-        cout << "hope you enjoy your stay";
+        cout << "hope you enjoy your stay" << endl;
+        system("pause");
         is_running = false;
     }
     else if (Tolower(in_key) == "look")
@@ -137,13 +146,43 @@ void Program::Event_checking()
         switch (Room_calling.GetEventType(stoi(holder)))
         {
         case'C':
-            /*Enter Combat*/
+            /*Enter combat*/
             break;
         case'B':
-            /*Take Curr event description, display, and wait for answer*/
+            if (!Room_calling.GetEventAct(stoi(holder)))
+            {
+                bool q = true;
+                string x, a1, a2;
+                cout << "\t" << Room_calling.GetEventName(stoi(holder)) << endl << Room_calling.GetEventDes(stoi(holder)) << endl;
+                SplitKeyWord(Room_calling.GetEventOpt(stoi(holder)), a1, a2);
+                cout << "please answer: " << a1 << " or " << a2 << endl;
+                do {
+                    cout << ">";
+                    getline(cin, x);
+                    if (Tolower(x) == Tolower(a1))
+                    {
+                        q = false;
+                    }
+                    else if (Tolower(x) == Tolower(a1))
+                    {
+                        cout << "Good bye" << endl;
+                        q = false;
+                        is_running = false;
+                    }
+                    else {
+                        cout << "try again" << endl;
+                    }
+                } while (q);
+                Room_calling.ChangeEventToInAct(stoi(holder));
+            }
             break;
         case'S':
-            /*Take Curr event description and display*/
+            if (!Room_calling.GetEventAct(stoi(holder)))
+            {
+                cout << "\t" << Room_calling.GetEventName(stoi(holder)) << endl << Room_calling.GetEventDes(stoi(holder)) << endl;
+                Room_calling.ChangeEventToInAct(stoi(holder));
+                system("pause");
+            }
             break;
         default:
             break;
@@ -151,18 +190,14 @@ void Program::Event_checking()
     }
 }
 
-
-
-/*
 //for runing the 'game'
 void Program::Run() {
+    Event_checking();
+    
     do {
         Action_checking();
     } while (is_running);
 
 }
-*/
-
-
 
 #endif

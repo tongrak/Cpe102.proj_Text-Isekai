@@ -27,23 +27,6 @@ struct Room {
     string description;
     string Neighbor[4];
     string eventID;
-
-    void InitVar();
-    void LoadMaps();
-    void LoadEvent();
-    //void ShowingRoomInfo();
-    //void GetRoomStr(int id, string& s1, string& s2);
-    string GetCurrName();
-    string GetCurrDes();
-    char GetEventType(int );
-    string GetNeighbors(int dir, string& keeper);
-    string GetEventId(string&);
-    void ChangeCurr_id(int id);
-
-    //constructor and distructor
-    Room();
-    ~Room();
-
 };
 
 struct Event {
@@ -51,40 +34,71 @@ struct Event {
     string event_descrip;
     char event_type;
     string event_option;
+    bool event_activated;
+
+    Event();
 };
 
-//declare some variable
-map<int, Room> roomStorage;
-map<int, Event> eventStorage;
-int* Curr_id = new int;
-string* NAME = new string;
-string* DESCRIP = new string;
+class data_load {
+public:
+    //Loading function
+    void LoadMaps();
+    void LoadEvent();
+    //Getting Variable function
+    string GetCurrName();
+    string GetCurrDes();
+    char GetEventType(int);
+    string GetEventName(int);
+    string GetEventDes(int);
+    string GetEventOpt(int);
+    string GetNeighbors(int dir, string& keeper);
+    string GetEventId(string&);
+    bool GetEventAct(int);
+    //Changing variable function
+    void ChangeCurr_id(int id);
+    void ChangeEventToInAct(int);
+    //Just for testing zone
+    //void ShowingRoomInfo();
+    //construtor and distrutors
+    data_load();
+    ~data_load();
 
+
+
+    //void GetRoomStr(int id, string& s1, string& s2);
+
+
+private:
+    //Declare variable in need
+    map<int, Room> roomStorage;
+    map<int, Event> eventStorage;
+    int* Curr_id;
+    string* NAME;
+    string* DESCRIP;
+
+};
 
 /*
     Constructor and Distructor of structure
 */
 
-//Initialize variables in needs.
-void Room::InitVar()
-{
+data_load::data_load() {
+    Curr_id = new int;
+    NAME = new string;
+    DESCRIP = new string;
     *Curr_id = 0;
     *NAME = "";
     *DESCRIP = "";
 }
 
-//constructor, starting with Initialize some dynamics;
-Room::Room()
-{
-    this->InitVar();
-}
-
-//distructor, delete all dynamic
-Room::~Room()
-{
+data_load::~data_load() {
     delete Curr_id;
     delete NAME;
     delete DESCRIP;
+}
+
+Event::Event() {
+    event_activated = false;
 }
 
 /*
@@ -92,8 +106,9 @@ Room::~Room()
 */
 
 //loading maps from Map.txt and store it in roomStorage map.
-void Room::LoadMaps()
+void data_load::LoadMaps()
 {
+    cout << "Loading Maps";
     string holder_str;
     int holder_int;
     ifstream file("Maps.txt");
@@ -112,18 +127,20 @@ void Room::LoadMaps()
                 int temp = holder_str.find_first_of(" ");
                 R.Neighbor[i] = holder_str.substr(temp + 1);
             }
-            getline(cin, holder_str);
+            getline(file, holder_str);
             int temp = holder_str.find_first_of(" ");
             R.eventID = holder_str.substr(temp + 1);
             roomStorage.insert(pair<int, Room>(holder_int, R));
         }
     }
     file.close();
+    cout << "Done" << endl;
 }
 
 //Loading event detail from Event.txt and store it in eventStorage Map.
-void Room::LoadEvent()
+void data_load::LoadEvent()
 {
+    cout << "loading Event";
     string holder_str;
     int holder_int;
     ifstream file("Events.txt");
@@ -144,6 +161,7 @@ void Room::LoadEvent()
         }
     }
     file.close();
+    cout << "done!" << endl;
 }
 
 /*
@@ -151,21 +169,25 @@ void Room::LoadEvent()
 */
 
 //Ruturing a Neighbor id.
-string Room::GetNeighbors(int dir, string& keeper) {
+string data_load::GetNeighbors(int dir, string& keeper) {
     keeper = roomStorage[*Curr_id].Neighbor[dir];
     return roomStorage[*Curr_id].Neighbor[dir];
 
 }
 
 //Returning a current event id.
-string Room::GetEventId(string &keeper) {
+string data_load::GetEventId(string& keeper) {
     keeper = roomStorage[*Curr_id].eventID;
     return roomStorage[*Curr_id].eventID;
 }
 
 //Taken ID and change Current ID
-void Room::ChangeCurr_id(int id) {
+void data_load::ChangeCurr_id(int id) {
     *Curr_id = id;
+}
+
+void data_load::ChangeEventToInAct(int id) {
+    eventStorage[id].event_activated = true;
 }
 
 /*
@@ -177,29 +199,50 @@ void Room::GetRoomStr(int ID, string& inni_name, string& inni_des) {
 */
 
 //returning Current room name, in string
-string Room::GetCurrName()
+string data_load::GetCurrName()
 {
     return roomStorage[*Curr_id].name;
 }
 
 
 //returning Current room description, in string
-string Room::GetCurrDes()
+string data_load::GetCurrDes()
 {
     return roomStorage[*Curr_id].description;
 }
 
-char Room::GetEventType(int key)
+char data_load::GetEventType(int key)
 {
     return eventStorage[key].event_type;
 }
 
-
-/*
-//for printing string on console(for now);
-void Room::ShowingRoomInfo()
+string data_load::GetEventName(int key)
 {
-    SettingUpRoom(*Curr_id, *NAME, *DESCRIP);
+    return eventStorage[key].event_name;
+}
+
+string data_load::GetEventDes(int key)
+{
+    return eventStorage[key].event_descrip;
+}
+
+string data_load::GetEventOpt(int key)
+{
+    return eventStorage[key].event_option;
+}
+
+bool data_load::GetEventAct(int key)
+{
+    return eventStorage[key].event_activated;
+}
+
+
+//for printing string on console(for now);
+/*
+void data_load::ShowingRoomInfo()
+{
+    *NAME = GetCurrName();
+    *DESCRIP = GetCurrDes();
     cout << "\t" << *NAME << endl << *DESCRIP << endl;
 }
 */
