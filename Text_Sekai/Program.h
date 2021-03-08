@@ -55,15 +55,18 @@ class Program
 {
 public:
     Program();
-    void Run();
+    //void Run();
 
 private:
     string holder, in_key, in_wanted;
     bool is_running;
+    bool is_kicking;
 
     void Action_checking();
     bool CheckingInputDir();
     void Event_checking();
+    void Checkpoint_checking();
+    void Dead();
 
 
 };
@@ -72,6 +75,7 @@ private:
 Program::Program() {
     holder = "", in_key = "", in_wanted = "";
     is_running = true;
+    is_kicking = true;
     Room_calling.LoadMaps();
     Room_calling.LoadEvent();
     Room_calling.ChangeCurr_id(1);
@@ -97,8 +101,7 @@ void Program::Action_checking() {
         else { cout << "nothing there" << endl; }
     }
     else if (Tolower(in_key) == "exit") {
-        cout << "hope you enjoy your stay" << endl;
-        system("pause");
+        /*Ask for confirmation*/
         is_running = false;
     }
     else if (Tolower(in_key) == "look")
@@ -143,45 +146,46 @@ void Program::Event_checking()
     string holder;
     if (Room_calling.GetEventId(holder) != "NULL")
     {
-        switch (Room_calling.GetEventType(stoi(holder)))
+        Room_calling.ChangeEvent_id(stoi(holder));
+        switch (Room_calling.GetEventType())
         {
         case'C':
             /*Enter combat*/
             break;
         case'B':
-            if (!Room_calling.GetEventAct(stoi(holder)))
+            if (!Room_calling.GetEventAct())
             {
                 bool q = true;
-                string x, a1, a2;
-                cout << "\t" << Room_calling.GetEventName(stoi(holder)) << endl << Room_calling.GetEventDes(stoi(holder)) << endl;
-                SplitKeyWord(Room_calling.GetEventOpt(stoi(holder)), a1, a2);
-                cout << "please answer: " << a1 << " or " << a2 << endl;
+                string x, a1, a2, b1, b2;
+                /*Display the text and wait for answer*/
+                SplitKeyWord(Room_calling.GetEventOpt(), a1, a2);
+                SplitKeyWord(Room_calling.GetEventCon(), b1, b2);
+                /* Show option store in a1 and a2*/
                 do {
-                    cout << ">";
-                    getline(cin, x);
+                    /*wait for answer*/
                     if (Tolower(x) == Tolower(a1))
                     {
+
+                        if (b1 == "DEAD") Dead();
                         q = false;
                     }
                     else if (Tolower(x) == Tolower(a1))
                     {
-                        cout << "Good bye" << endl;
+                        if (b2 == "DEAD") Dead();
                         q = false;
-                        is_running = false;
+                      
                     }
                     else {
-                        cout << "try again" << endl;
+                        /*display error message*/
                     }
                 } while (q);
-                Room_calling.ChangeEventToInAct(stoi(holder));
+                Room_calling.ChangeEventToInAct();
             }
             break;
         case'S':
-            if (!Room_calling.GetEventAct(stoi(holder)))
+            if (!Room_calling.GetEventAct())
             {
-                cout << "\t" << Room_calling.GetEventName(stoi(holder)) << endl << Room_calling.GetEventDes(stoi(holder)) << endl;
-                Room_calling.ChangeEventToInAct(stoi(holder));
-                system("pause");
+                /*Display the texts and pause */
             }
             break;
         default:
@@ -190,14 +194,12 @@ void Program::Event_checking()
     }
 }
 
-//for runing the 'game'
-void Program::Run() {
-    Event_checking();
-    
-    do {
-        Action_checking();
-    } while (is_running);
+void Program::Checkpoint_checking() {
+    if (Room_calling.GetEventCheck())Room_calling.ChangeLastCheck();
+}
 
+void Program::Dead() {
+    is_kicking = false;
 }
 
 #endif

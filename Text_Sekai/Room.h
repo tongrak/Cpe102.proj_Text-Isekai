@@ -35,6 +35,8 @@ struct Event {
     char event_type;
     string event_option;
     bool event_activated;
+    string event_condition;
+    bool event_checkpoint;
 
     Event();
 };
@@ -47,16 +49,20 @@ public:
     //Getting Variable function
     string GetCurrName();
     string GetCurrDes();
-    char GetEventType(int);
-    string GetEventName(int);
-    string GetEventDes(int);
-    string GetEventOpt(int);
+    char GetEventType();
+    string GetEventName();
+    string GetEventDes();
+    string GetEventOpt();
+    string GetEventCon();
     string GetNeighbors(int dir, string& keeper);
     string GetEventId(string&);
-    bool GetEventAct(int);
+    bool GetEventAct();
+    bool GetEventCheck();
     //Changing variable function
     void ChangeCurr_id(int id);
-    void ChangeEventToInAct(int);
+    void ChangeEvent_id(int id);
+    void ChangeEventToInAct();
+    void ChangeLastCheck();
     //Just for testing zone
     //void ShowingRoomInfo();
     //construtor and distrutors
@@ -73,6 +79,8 @@ private:
     map<int, Room> roomStorage;
     map<int, Event> eventStorage;
     int* Curr_id;
+    int* Event_id;
+    int* last_check;
     string* NAME;
     string* DESCRIP;
 
@@ -84,21 +92,30 @@ private:
 
 data_load::data_load() {
     Curr_id = new int;
+    last_check = new int;
+    Event_id = new int;
     NAME = new string;
     DESCRIP = new string;
+    
     *Curr_id = 0;
+    *last_check = 0;
+    *Event_id = 0;
     *NAME = "";
     *DESCRIP = "";
+
 }
 
 data_load::~data_load() {
     delete Curr_id;
+    delete last_check;
     delete NAME;
     delete DESCRIP;
 }
 
 Event::Event() {
     event_activated = false;
+    event_checkpoint = false;
+    event_type = ' ';
 }
 
 /*
@@ -134,7 +151,7 @@ void data_load::LoadMaps()
         }
     }
     file.close();
-    cout << "Done" << endl;
+    cout << " Done" << endl;
 }
 
 //Loading event detail from Event.txt and store it in eventStorage Map.
@@ -153,15 +170,23 @@ void data_load::LoadEvent()
             holder_int = stoi(holder_str);
             getline(file, eve.event_name);
             getline(file, eve.event_descrip);
-            string temp;
+            string temp, t2;
             getline(file, temp);
-            eve.event_type = temp[0];
+            int holder = temp.find_first_of(" ");
+            t2 = temp.substr(holder + 1);
+            eve.event_type = t2[0];
             getline(file, eve.event_option);
+            getline(file, eve.event_condition);
+            getline(file, temp);
+            int holder = temp.find_first_of(" ");
+            t2 = temp.substr(holder + 1);
+            (t2 == "YES") ? eve.event_checkpoint = true : eve.event_checkpoint = false;
+            //Storing
             eventStorage.insert(pair<int, Event>(holder_int, eve));
         }
     }
     file.close();
-    cout << "done!" << endl;
+    cout << " Done" << endl;
 }
 
 /*
@@ -186,54 +211,63 @@ void data_load::ChangeCurr_id(int id) {
     *Curr_id = id;
 }
 
-void data_load::ChangeEventToInAct(int id) {
-    eventStorage[id].event_activated = true;
+void data_load::ChangeEventToInAct() {
+    eventStorage[*Event_id].event_activated = true;
 }
 
-/*
-//Setting up string to be print.
-void Room::GetRoomStr(int ID, string& inni_name, string& inni_des) {
-    inni_name = roomStorage[ID].name;
-    inni_des = roomStorage[ID].description;
+void data_load::ChangeEvent_id(int id) {
+    *Event_id = id;
 }
-*/
 
-//returning Current room name, in string
+void data_load::ChangeLastCheck()
+{
+    *last_check = *Curr_id;
+}
+
 string data_load::GetCurrName()
 {
     return roomStorage[*Curr_id].name;
 }
 
 
-//returning Current room description, in string
 string data_load::GetCurrDes()
 {
     return roomStorage[*Curr_id].description;
 }
 
-char data_load::GetEventType(int key)
+char data_load::GetEventType()
 {
-    return eventStorage[key].event_type;
+    return eventStorage[*Event_id].event_type;
 }
 
-string data_load::GetEventName(int key)
+string data_load::GetEventName()
 {
-    return eventStorage[key].event_name;
+    return eventStorage[*Event_id].event_name;
 }
 
-string data_load::GetEventDes(int key)
+string data_load::GetEventDes()
 {
-    return eventStorage[key].event_descrip;
+    return eventStorage[*Event_id].event_descrip;
 }
 
-string data_load::GetEventOpt(int key)
+string data_load::GetEventOpt()
 {
-    return eventStorage[key].event_option;
+    return eventStorage[*Event_id].event_option;
 }
 
-bool data_load::GetEventAct(int key)
+bool data_load::GetEventAct()
 {
-    return eventStorage[key].event_activated;
+    return eventStorage[*Event_id].event_activated;
+}
+
+string data_load::GetEventCon()
+{
+    return eventStorage[*Event_id].event_condition;
+}
+
+bool data_load::GetEventCheck()
+{
+    return eventStorage[*Event_id].event_checkpoint;
 }
 
 
