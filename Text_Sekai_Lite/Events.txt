@@ -1,0 +1,37 @@
+This is Event text file. Here we store all thing to do with game event.
+//*****The Format*****//
+//EVENT_BEGIN
+//event id
+//name
+//description
+//event type. (B for two option event, C for combat event, S for cutscene)
+//event option, if need be.
+//event outcome. (DEAD and NULL) (Expect two condition for B type event);
+//event checkpoint or not. (Expect YES or NULL)
+
+EVENT_BEGIN
+101
+Starting Scene
+This is where it all begin. empty, there is not a single thing in the room. two door catch your eyes, one at the north and one at the west.
+TYPE S
+NULL
+NULL
+CHECKPOINT YES
+
+EVENT_BEGIN
+102
+The north room
+A big white room, with nothing in side of it, a only way to go is south
+TYPE S
+NULL 
+NULL
+CHECKPOINT NULL
+
+EVENT_BEGIN
+103
+You are not suppost to be here.
+go back.
+TYPE B
+NO YES
+DEAD DEAD
+CHECKPOINT NULL

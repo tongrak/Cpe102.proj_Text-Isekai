@@ -1,0 +1,81 @@
+This is where we store our game story, heart, and hope.
+
+ROOM_BEGIN
+01
+Starting room
+This is where you begin. a empty room, there are a door to the north and west.
+NORTH 02
+EAST NULL
+WEST 03
+SOUTH NULL
+EVENT 101
+
+ROOM_BEGIN
+02
+North of the room
+this 'room' located on the north of the room. and there are no where to go, but door to the south.
+NORTH NULL
+EAST NULL
+WEST NULL
+SOUTH 01
+EVENT 102
+
+ROOM_BEGIN
+03
+West of the room
+There is nothing here. There are door on the east and the west
+NORTH NULL
+EAST 01
+WEST 04
+SOUTH NULL
+EVENT NULL
+
+ROOM_BEGIN
+04
+A narrow room.
+A narrow room with only two door to the north, and to the west
+NORTH 05
+EAST NULL
+WEST 03
+SOUTH NULL
+EVENT NULL
+
+ROOM_BEGIN
+05
+A out side
+the sun is shinning, a fresh air hit the norse, the door shut behide you. Look like you lock out now. The end for now.
+NORTH NULL
+EAST NULL
+WEST NULL
+SOUTH NULL
+EVENT 103
+
+ROOM_BEGIN// 
+04
+Why are you here?
+I said there is only one door last room. Now, go back, the door is on the south.
+NORTH 05
+EAST NULL
+WEST NULL
+SOUTH 03
+EVENT 103
+
+ROOM_BEGIN//
+05
+GO BACK TO WORK
+Stop playing around the prototype and go back to work!!
+NORTH 06
+EAST NULL
+WEST NULL
+SOUTH 04
+EVENT NULL
+
+ROOM_BEGIN//
+06
+FOR FUCK SAKE
+GO BACK TO WORK
+NORTH NULL
+EAST NULL
+WEST NULL
+SOUTH 05
+EVENT NULL
