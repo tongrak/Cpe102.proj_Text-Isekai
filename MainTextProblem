@@ -1,0 +1,149 @@
+#include<iostream>
+//#include"Room.h"
+#include<SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
+#include<SFML/System.hpp>
+#include<SFML/Network.hpp>
+#include<SFML/Window.hpp>
+
+
+using namespace std;
+
+#define DELETE_KEY 8
+#define ENTER_KEY 13
+#define ESCAPE_KEY 27
+
+int main() {
+
+
+    sf::RenderWindow window(sf::VideoMode(1048, 1048), "Text adventure", sf::Style::Close | sf::Style::Resize );
+
+
+    sf::Texture texture;
+    sf::Font Movethetext;//maybe use it;
+
+    texture.setRepeated(false);
+
+    
+
+    if (!texture.loadFromFile("C:/Game file/background/CAVE 1.jpg")) {
+        std::cout << "Load failed" << std::endl;
+
+        system("pause");
+
+    }
+
+    sf::Sprite sprite;
+
+    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect(0, 0, 626,441 ));
+    sprite.setPosition(sf::Vector2f(100,50)); // 200,100
+
+
+    bool showtof = false;
+
+        sf::Font font;
+        if (!font.loadFromFile("C:/Game file/Font/ArialCE.ttf")) {
+            std::cout << "Load FONT Failed" << std::endl;
+
+            system("pause");
+        }
+        font.loadFromFile("ArialCE.ttf");
+
+    sf::String systemstring;
+
+    sf::Text system;
+    system.setFont(font);
+    system.setString("||System||" + systemstring);
+    system.setPosition(0, 650); 
+    system.setCharacterSize(23);
+    system.setFillColor(sf::Color::Cyan);
+
+    sf::Text colon;
+    colon.setFont(font);
+    colon.setString("||Player||:");
+    colon.setPosition(0, 600);
+    colon.setCharacterSize(23);
+    colon.setFillColor(sf::Color::Yellow);
+
+    
+    sf::String sentence;
+    sf::Text text(sentence, font, 23);
+    text.setPosition(101, 600);
+    text.setFillColor(sf::Color::White);
+    std::string south1 = "\n You found nothing but its slime";
+    std::string condition1 = "south";
+    while (window.isOpen())
+
+    {
+
+        sf::Event Event;
+
+        //Event Start the loop
+        while (window.pollEvent(Event))
+        {
+            showtof = false;
+            switch (Event.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                
+                break;
+
+            case sf::Event::Resized:
+                printf("%i,%i\n", Event.size.width, Event.size.height);
+                break;
+            case sf::Event::TextEntered: // รับอินพุทต์
+                if (Event.type == sf::Event::TextEntered) { 
+                    if (Event.text.unicode >= 32 && Event.text.unicode <= 126 && sentence.getSize() < 20) // รับอินพุทต์แค่ 32 - 126 ในตารางยูนิโค้ดและจำกัดมันไว้แค่ 20 ตัวอักษร
+                    {
+                        sentence += (char)Event.text.unicode; // ใส่ตัวอักษร char ทีละตัวลงไป
+                    }
+                    else if (Event.text.unicode == DELETE_KEY && sentence.getSize() >= 0) // ลบตัวอักษร
+                    {
+                        sentence.erase(sentence.getSize() - 1, sentence.getSize()); // ลบตามขนาดลงไปทีละตัว
+                    }
+                    else if (Event.text.unicode == ENTER_KEY && sentence.getSize()) // กด ENTER 
+                    {
+                        for (unsigned int i = 0; i < sentence.getSize(); i++)
+                            putchar(tolower(sentence[i])); // นำคำที่มีอยู่ใน sentence จากบรรทัดที่ 70 ที่เป็น string เป็นตัวเล็กให้หมด
+                        /// //////////////////////////////////////////////////s/////////////////////////////////////////////////////////////////////////////
+                        /// 
+                        /// และนี่ก็คือปัญหาของเราครับอันนี้เราจะ
+                        /// 
+                        /// อยากจะตรวจเงื่อนไขให้ตรวจตรงนี้ปัญหาอยู่ที่ว่าเราจะเอามันมาใส่ได้ยังไง เพราะเป็นปัญหาที่ค่อนข้างใหญ่และติดปัญหาที่ชื่อว่า LNK2005 ALREADY DEFINE
+                        /// 
+                        /// รวมไปถึงการรวมโค้ดที่เราจะใส่ลงไปเป็นชิ้นงานค่อนข้างยุ่งยากขึ้นเรื่อยๆครับ
+                        /// 
+                        /// From Thoop
+                        if (sentence == condition1) {
+                            //here we need to add function that check the situation of the game
+                            std::cout << south1 << std::endl;
+                            systemstring = south1;
+                            system.setString("||System||:" + systemstring);
+                            systemstring.clear();
+                        }
+                        else if (sentence != condition1) {
+                            systemstring = "Error";  
+                            system.setString("||System||:" + systemstring);
+                        }
+                        // add the new line to enter + systemstring.clear();
+                        sentence.clear();
+                        
+                    }
+
+                    text.setString(sentence);
+                    break;
+
+                }      
+            }
+        }
+        window.clear();
+        window.draw(colon);
+        window.draw(text);
+        window.draw(system);
+        window.draw(sprite);
+        window.display();
+    }
+    return 0;
+}
