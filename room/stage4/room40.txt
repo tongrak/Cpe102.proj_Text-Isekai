@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+40 //Room ID
+goblin room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH NULL //North Neighboring Room ID
+EAST NULL //East Neighboring Room ID
+WEST 37 //West Neighboring Room ID
+SOUTH 41 //South Neighboring Room ID 
+EVENT 402 //Said room event id if have any.

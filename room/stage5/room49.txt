@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+49 //Room ID
+stage1 room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH NULL //North Neighboring Room ID
+EAST 50 //East Neighboring Room ID
+WEST 48 //West Neighboring Room ID
+SOUTH NULL //South Neighboring Room ID 
+EVENT NULL //Said room event id if have any.

@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+44 //Room ID
+dragon room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH NULL //North Neighboring Room ID
+EAST 45 //East Neighboring Room ID
+WEST 42 //West Neighboring Room ID
+SOUTH NULL //South Neighboring Room ID 
+EVENT 406 //Said room event id if have any.

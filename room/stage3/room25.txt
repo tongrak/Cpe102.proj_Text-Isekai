@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+25 //Room ID
+pokemo_trainer room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 26 //North Neighboring Room ID
+EAST 29 //East Neighboring Room ID
+WEST 24 //West Neighboring Room ID
+SOUTH 27 //South Neighboring Room ID 
+EVENT 301 //Said room event id if have any.

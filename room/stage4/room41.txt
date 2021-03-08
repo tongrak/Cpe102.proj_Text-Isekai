@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+41 //Room ID
+mimic room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 40 //North Neighboring Room ID
+EAST NULL //East Neighboring Room ID
+WEST NULl //West Neighboring Room ID
+SOUTH NULL //South Neighboring Room ID 
+EVENT 403 //Said room event id if have any.

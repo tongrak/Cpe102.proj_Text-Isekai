@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+27 //Room ID
+fake_pokemon room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 25 //North Neighboring Room ID
+EAST 28 //East Neighboring Room ID
+WEST NULL //West Neighboring Room ID
+SOUTH NULL //South Neighboring Room ID 
+EVENT 302 //Said room event id if have any.

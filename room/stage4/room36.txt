@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+36 //Room ID
+cave_2 room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 38 //North Neighboring Room ID
+EAST 42 //East Neighboring Room ID
+WEST 35 //West Neighboring Room ID
+SOUTH 37 //South Neighboring Room ID 
+EVENT NULL //Said room event id if have any.

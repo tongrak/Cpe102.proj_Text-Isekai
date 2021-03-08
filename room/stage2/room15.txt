@@ -1,0 +1,8 @@
+ROOM_BEGIN //ต้องเขียน
+15 //Room ID
+city_1 room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 13 //North Neighboring Room ID
+EAST NULL //East Neighboring Room ID
+WEST NULL //West Neighboring Room ID
+SOUTH 16 //South Neighboring Room ID 

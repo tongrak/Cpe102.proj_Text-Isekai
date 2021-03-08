@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+03 //Room ID
+Rimuru room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 01 //North Neighboring Room ID
+EAST NULL //East Neighboring Room ID
+WEST NULL //West Neighboring Room ID
+SOUTH NULL //South Neighboring Room ID 
+EVENT 103 //Said room event id if have any.

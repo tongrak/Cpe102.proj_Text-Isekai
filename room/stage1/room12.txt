@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+05 //Room ID
+no game room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH NULL //North Neighboring Room ID
+EAST NULL //East Neighboring Room ID
+WEST NULL //West Neighboring Room ID
+SOUTH 10 //South Neighboring Room ID 
+EVENT 109 //Said room event id if have any.

@@ -1,0 +1,9 @@
+ROOM_BEGIN //ต้องเขียน
+09 //Room ID
+Dark soul room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH 04 //North Neighboring Room ID
+EAST NULL //East Neighboring Room ID
+WEST NULL //West Neighboring Room ID
+SOUTH NULL //South Neighboring Room ID 
+EVENT 107 //Said room event id if have any.

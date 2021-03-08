@@ -1,0 +1,8 @@
+ROOM_BEGIN //ต้องเขียน
+26 //Room ID
+bewere_bomb room //Room name
+This is where you begin. a empty room, there are a door to the north and west. // Room description
+NORTH NULL //North Neighboring Room ID
+EAST 27 //East Neighboring Room ID
+WEST NULL //West Neighboring Room ID
+SOUTH 25 //South Neighboring Room ID 
